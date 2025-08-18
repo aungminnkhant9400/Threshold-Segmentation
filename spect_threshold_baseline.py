@@ -28,7 +28,7 @@ if not finite.any():
     raise ValueError("SPECT has no finite voxels.")
 
 Imax = float(spect_np[finite].max())
-p = 0.40                                  # your first experiment
+p = 0.42                 # your first experiment
 thr = p * Imax
 print(f"Imax={Imax:.3f}, p={p:.2f}, threshold={thr:.3f}")
 
