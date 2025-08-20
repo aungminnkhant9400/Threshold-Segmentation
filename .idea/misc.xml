@@ -3,5 +3,5 @@
   <component name="Black">
     <option name="sdkName" value="ThresholdSeg" />
   </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="Threshold-Segmentation" project-jdk-type="Python SDK" />
+  <component name="ProjectRootManager" version="2" project-jdk-name="ThresholdSeg" project-jdk-type="Python SDK" />
 </project>

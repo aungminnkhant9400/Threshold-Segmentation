@@ -52,7 +52,7 @@ def save_like(ref_img, arr_np, out_path):
     out.CopyInformation(ref_img)
     sitk.WriteImage(out, out_path)
 
-OUT_DIR = Path("outputs"); OUT_DIR.mkdir(exist_ok=True)
+OUT_DIR = Path("P_20_Outputs"); OUT_DIR.mkdir(exist_ok=True)
 save_like(spect_img, pred_np, OUT_DIR/"pred_p40_raw.nii.gz")
 save_like(spect_img, pred_np_largest, OUT_DIR/"pred_p40_largest.nii.gz")
 print("Saved:", OUT_DIR/"pred_p40_raw.nii.gz", "and", OUT_DIR/"pred_p40_largest.nii.gz")
@@ -150,6 +150,6 @@ dice_roi = dice(pred_roi_np, (mask_np > 0))
 print(f"GT volume:    {vol_gt:.2f} mL")
 print(f"Pred (ROI):   {vol_pred:.2f} mL")
 print(f"Dice (ROI):   {dice_roi:.3f}")
-print(f"Threshold (ROI): p={p_roi:.2f}, Imax_roi={Imax_roi:.3f}, thr={thr_roi:.3f}")
+print(f"Threshold (ROI): p_roi={p_roi:.2f}, Imax_roi={Imax_roi:.3f}, thr={thr_roi:.3f}")
 
 

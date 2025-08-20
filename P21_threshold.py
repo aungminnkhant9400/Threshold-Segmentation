@@ -52,7 +52,7 @@ def save_like(ref_img, arr_np, out_path):
     out.CopyInformation(ref_img)
     sitk.WriteImage(out, out_path)
 
-OUT_DIR = Path("outputs_21"); OUT_DIR.mkdir(exist_ok=True)
+OUT_DIR = Path("P_21_Outputs"); OUT_DIR.mkdir(exist_ok=True)
 save_like(spect_img, pred_np, OUT_DIR/"pred_p40_raw.nii.gz")
 save_like(spect_img, pred_np_largest, OUT_DIR/"pred_p40_largest.nii.gz")
 print("Saved:", OUT_DIR/"pred_p40_raw.nii.gz", "and", OUT_DIR/"pred_p40_largest.nii.gz")
@@ -108,7 +108,7 @@ if finite_roi.sum() == 0:
     raise ValueError("No finite SPECT voxels inside ROI. Check ROI location/registration.")
 
 # 2) Compute Imax **inside ROI only** and threshold
-p_roi = 0.30  # keep a separate variable name to avoid confusion with earlier p
+p_roi = 0.20  # keep a separate variable name to avoid confusion with earlier p
 Imax_roi = float(spect_np[finite_roi].max())
 thr_roi = p_roi * Imax_roi
 
