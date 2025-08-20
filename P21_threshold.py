@@ -28,7 +28,7 @@ if not finite.any():
     raise ValueError("SPECT has no finite voxels.")
 
 Imax = float(spect_np[finite].max())
-p = 0.42                 # your first experiment
+p = 0.40                # your first experiment
 thr = p * Imax
 print(f"Imax={Imax:.3f}, p={p:.2f}, threshold={thr:.3f}")
 
@@ -108,7 +108,7 @@ if finite_roi.sum() == 0:
     raise ValueError("No finite SPECT voxels inside ROI. Check ROI location/registration.")
 
 # 2) Compute Imax **inside ROI only** and threshold
-p_roi = 0.20  # keep a separate variable name to avoid confusion with earlier p
+p_roi = 0.50  # keep a separate variable name to avoid confusion with earlier p
 Imax_roi = float(spect_np[finite_roi].max())
 thr_roi = p_roi * Imax_roi
 

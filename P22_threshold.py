@@ -5,8 +5,8 @@ import scipy.ndimage as ndi
 from pathlib import Path
 
 # --- paths ---
-SPECT_PATH = "P_20/p_20_scan_2_pet_resample_crop_whole_body_Resample_Fregistered_to_TP_2_Resample_4.42.nii.gz"
-MASK_PATH  = "P_20/tumor/p20_tumor_1.nii.gz"
+SPECT_PATH = "P_22/p_22_scan_2_pet_resample_crop_whole_body_Resample_Fregistered_to_TP_2_Resample_4.42.nii.gz"
+MASK_PATH  = "P_22/tumor/tumor_1.nii.gz"
 
 # --- load ---
 spect_img = sitk.ReadImage(SPECT_PATH)         # 3D image
@@ -28,7 +28,7 @@ if not finite.any():
     raise ValueError("SPECT has no finite voxels.")
 
 Imax = float(spect_np[finite].max())
-p = 0.42                 # your first experiment
+p = 0.40                 # your first experiment
 thr = p * Imax
 print(f"Imax={Imax:.3f}, p={p:.2f}, threshold={thr:.3f}")
 
@@ -52,7 +52,7 @@ def save_like(ref_img, arr_np, out_path):
     out.CopyInformation(ref_img)
     sitk.WriteImage(out, out_path)
 
-OUT_DIR = Path("P_20_Outputs"); OUT_DIR.mkdir(exist_ok=True)
+OUT_DIR = Path("P_22_Outputs"); OUT_DIR.mkdir(exist_ok=True)
 save_like(spect_img, pred_np, OUT_DIR/"pred_p40_raw.nii.gz")
 save_like(spect_img, pred_np_largest, OUT_DIR/"pred_p40_largest.nii.gz")
 print("Saved:", OUT_DIR/"pred_p40_raw.nii.gz", "and", OUT_DIR/"pred_p40_largest.nii.gz")
@@ -80,7 +80,7 @@ print("Dice (largest):", dice(pred_np_largest, (mask_np>0)))
 
 #ROI method
 # 1) Load ROI and make sure it matches SPECT geometry
-roi_img = sitk.ReadImage("P_20/roi_tumor_zone.nii.gz")
+roi_img = sitk.ReadImage("P_22/roi_tumor_zone.nii.gz")
 
 def resample_like(moving_img, fixed_img, is_label=True):
     interp = sitk.sitkNearestNeighbor if is_label else sitk.sitkLinear
@@ -108,7 +108,7 @@ if finite_roi.sum() == 0:
     raise ValueError("No finite SPECT voxels inside ROI. Check ROI location/registration.")
 
 # 2) Compute Imax **inside ROI only** and threshold
-p_roi = 0.40  # keep a separate variable name to avoid confusion with earlier p
+p_roi = 0.50  # keep a separate variable name to avoid confusion with earlier p
 Imax_roi = float(spect_np[finite_roi].max())
 thr_roi = p_roi * Imax_roi
 
@@ -150,6 +150,6 @@ dice_roi = dice(pred_roi_np, (mask_np > 0))
 print(f"GT volume:    {vol_gt:.2f} mL")
 print(f"Pred (ROI):   {vol_pred:.2f} mL")
 print(f"Dice (ROI):   {dice_roi:.3f}")
-print(f"Threshold (ROI): p_roi={p_roi:.2f}, Imax_roi={Imax_roi:.3f}, thr={thr_roi:.3f}")
+print(f"Threshold (ROI): p={p_roi:.2f}, Imax_roi={Imax_roi:.3f}, thr={thr_roi:.3f}")
 
 
